@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'拼接传递的—-'+ ${title}">标题</title>
+    <meta name="description" content="默认的描述" th:content="|拼接后的描述:${description}|"/>
+    <meta name="keywords" content="默认的keywords" th:content="传过来的keywords"/>
+    <link rel="stylesheet" th:href="@{../static/css/index.css}">
+
+    <style>
+        .red_tag{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<p th:text="${title}">123</p>
+<!-- th:if -->
+<div th:if="${user.isAlive}">活着</div>
+<!-- th:each -->
+<ul>
+    <li th:each="tag,index:${user.tags}" th:text="${tag}"
+        th:classappend="${index.last}?'red_tag'"></li>
+    <!-- 最后一项的时候用 -->
+</ul>
+<p th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}"/>
+<!-- th:switch -->
+<div th:switch="${user.sex}">
+    <p th:case="1">男</p>
+    <p th:case="2">女</p>
+    <p th:case="*">中性人</p>
+</div>
+<!-- th:object-->
+<div th:object="${user}">
+    <p th:text="*{name}"></p>
+</div>
+
+<!-- th:replace -->
+<div th:replace="component::div1">
+</div>
+<!-- th:insert -->
+<div th:insert="component::#div2"></div>
+<div th:insert="~{component::#div2}"></div>
+<div th:insert="component::.div3"></div>
+
+
+
+<!--动态渲染-->
+<script th:inline="javascript">
+    //能这样渲染的前提是， th:inline="javascript"。 css，同理
+    const user = /*[[${user}]]*/"用户";
+    console.log(user);
+</script>
+</body>
+</html>

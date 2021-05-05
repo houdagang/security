@@ -1,0 +1,6 @@
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    # 开发下为false，上线推荐true
+    cache: false
